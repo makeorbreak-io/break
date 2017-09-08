@@ -1,0 +1,13 @@
+cryptography==1.7.1
+enum34==1.1.6
+idna==2.2
+ipaddress==1.0.17
+keyring==10.3.1
+keyrings.alt==2.2
+pyasn1==0.1.9
+pycrypto==2.6.1
+pygobject==3.22.0
+pyxdg==0.25
+SecretStorage==2.3.1
+six==1.10.0
+virtualenv==15.1.0
