@@ -83,21 +83,5 @@ class Parser:
                 return self.Tag(token)
             else:
                 return False
-
-"""
-Example usage:
-
-parser = Parser('../test/intermediate.txt')
-if (parser.Parse()):
-    print("Parse was successful; Created " + str(len(parser.issues)) + " issues.")
-    for issue in parser.issues:
-        print(issue.tag,
-              issue.file,
-              issue.lineno,
-              issue.assignees,
-              issue.comment)
-else:
-    print("Parse failed")
-"""     
         
 
