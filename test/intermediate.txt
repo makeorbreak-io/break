@@ -2,7 +2,21 @@
 :file main.cpp
 :lineno 10
 :assignee joaosilva22
-:assignee margaridaviterbo
+:assignee JoseLuisMartins
+:comment There should be a better way to do this
+
+:tag TODO
+:file check.cpp
+:lineno 20
+:assignee joaosilva22
+:assignee JoseLuisMartins
+:comment There should be a better way to do this
+
+:tag FIXME
+:file main.cpp
+:lineno 10
+:assignee joaosilva22
+:assignee JoseLuisMartins
 :comment There should be a better way to do this
 
 :tag FIXME
@@ -11,7 +25,7 @@
 :comment Clean up this method
 
 :tag NOTE
-:file box.cpp
+:file newclass.cpp
 :lineno 26
 :assignee JoseLuisMartins
 :comment Whatever
