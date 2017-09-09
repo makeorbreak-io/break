@@ -25,10 +25,9 @@ class Plugin:
         self.repo_user = repo_user
         self.repo_name = repo_name
 
-    def run(self):        
+    def run(self):
         r = self.session.get("https://api.github.com/repos/" + self.repo_user + "/" + self.repo_name + "/issues")
         if r.status_code != 200:
-            print(r.text)
             return False
         
         github_issues = r.json()
@@ -75,7 +74,10 @@ class Plugin:
                         return False
                     github_issues.pop(i)
             if match == False:
-                self.session.post("https://api.github.com/repos/" + self.repo_user + "/" + self.repo_name + "/issues/", json = {"title":collection.comment, "body":string, "labels":[collection.tag], "assignees":collection.assignees})
+                r = self.session.post("https://api.github.com/repos/" + self.repo_user + "/" + self.repo_name + "/issues", json = {"title":collection.comment, "body":string, "labels":[collection.tag], "assignees":collection.assignees})
+                if r.status_code < 200 or r.status_code > 299:
+                    print(r.text)
+                    return False
         for github_issue in github_issues:
             url = "https://api.github.com/repos/" + self.repo_user + "/" + self.repo_name + "/issues/" + str(github_issue["number"])
             r = self.session.patch(url, json = {"state":"closed"})

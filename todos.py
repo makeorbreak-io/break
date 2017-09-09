@@ -62,6 +62,7 @@ if len(sys.argv) == 1:
 
             plugin = GithubPlugin(config["github-token"], issues, github_repo_user, github_repo_name)
             success = plugin.run()
+
             if not success:
                 print(sys.argv[0] + ": failed to output to github.")            
         
