@@ -31,6 +31,9 @@ class Lexer:
 
     def tokenize_dir(self, rootdir):
         for root, subdirs, files in os.walk(rootdir):
+            files = [f for f in files if not f[0] == '.']
+            subdirs[:] = [d for d in subdirs if not d[0] == '.']
+            
             for file in files:
                 filepath = os.path.join(root, file)
                 self.file = file
@@ -56,11 +59,15 @@ class Lexer:
             i += 1
 
     def tokenize_file(self, filepath):
+        i = 0
+        
         self.lineno = 1
         f = open(filepath, "r")
-        content = f.read()
-        
-        i = 0
+        try:
+            content = f.read()
+        except UnicodeDecodeError:
+            return
+            
         while (i < len(content)):
             if self.match_token(content, i, "//"):
                 i = self.tokenize(content, i+2, self.inline_comment)
@@ -117,3 +124,4 @@ class Lexer:
                 i += len(word) - 1
                 
             i += 1
+        return i

@@ -1,9 +1,9 @@
 import requests
 
 from requests.auth import HTTPBasicAuth
-from parser import Parser
+from .parser import Parser
 
-class IssueColection:
+class IssueCollection:
     def __init__(self, tag, content = None, comment = None, assignees = None):
         self.tag = tag
         self.comment = comment
@@ -16,83 +16,71 @@ class IssueColection:
         else:
             self.assignees = assignees
 
+class Plugin:
+    def __init__(self, token, issues, repo_user, repo_name):
+        self.token = token
+        self.issues = issues
+        self.session = requests.Session()
+        self.session.headers.update({"Authorization": "token " + self.token})
+        self.repo_user = repo_user
+        self.repo_name = repo_name
 
-'''TODO este metodo de pedir sempre as credenciais VAI SER ALTERADO pelo que está comentado abaixo?????'''
-print("TODOS is asking for your GitHub credentials to update your issues.\n")
-data = input('Username: ')
-username = str(data)
-data = input('Password: ')
-password = str(data)
-print('\n')
+    def run(self):        
+        r = self.session.get("https://api.github.com/repos/" + self.repo_user + "/" + self.repo_name + "/issues")
+        if r.status_code != 200:
+            print(r.text)
+            return False
+        
+        github_issues = r.json()
+        open_issues = [x for x in github_issues if x["state"] != "closed"]
 
-session = requests.Session()
-session.auth = (username, password)
+        issue_collections = []
+        for i, issue in enumerate(self.issues):
+            match = False
+            issue_file_lineno = issue.file + ":" + str(issue.lineno)
+            for collection in issue_collections:
+                if issue.comment == collection.comment and issue.tag == collection.tag:
+                    match = True
+                    
+                    for collection_file_lineno in collection.content:
+                        found_line = False
+                        if issue_file_lineno == collection_file_lineno:
+                            found_line = True
+                    if not found_line:
+                        collection.content.append(issue_file_lineno)
+                        
+                    for issue_assignee in issue.assignees:
+                        found_assignee = False
+                        for collection_assignee in collection.assignees:
+                            if issue_assignee == collection_assignee:
+                                found_assignee = True
+                        if not found_assignee:
+                            collection.assignees.append(issue_assignee)
 
-parser = Parser('../test/intermediate.txt')
-if (parser.Parse()):
-    issues = session.get('https://api.github.com/repos/portosummerofcode/break/issues')
-    githubIssues = issues.json()
+            if not match:
+                collection = IssueCollection(issue.tag, [issue_file_lineno], issue.comment, issue.assignees)
+                issue_collections.append(collection)
 
-    if issues.status_code != 200:
-        print("ERROR!")
-        exit(1)
+        for collection in issue_collections:
+            string = ''
+            for content in collection.content:
+                string += content + "\n"
+            match = False
+            for i, github_issue in enumerate(github_issues):
+                if github_issue["title"] == collection.comment and github_issue["labels"][0]["name"] == collection.tag:
+                    match = True
+                    url = "https://api.github.com/repos/" + self.repo_user + "/" + self.repo_name + "/issues/" + str(github_issue["number"])
+                    r = self.session.patch(url, json = {"body":string, "assignees":collection.assignees})
+                    if r.status_code < 200 or r.status_code > 299:
+                        return False
+                    github_issues.pop(i)
+            if match == False:
+                self.session.post("https://api.github.com/repos/" + self.repo_user + "/" + self.repo_name + "/issues/", json = {"title":collection.comment, "body":string, "labels":[collection.tag], "assignees":collection.assignees})
+        for github_issue in github_issues:
+            url = "https://api.github.com/repos/" + self.repo_user + "/" + self.repo_name + "/issues/" + str(github_issue["number"])
+            r = self.session.patch(url, json = {"state":"closed"})
+            if r.status_code < 200 or r.status_code > 299:
+                return False
 
-    i = 0
-    while (i < len(githubIssues)):
-        if githubIssues[i]['state'] == 'closed':
-            githubIssues.pop(i)
-        else:
-            i += 1
+        return True
 
-    issuesCollections = []
-    for i, issue1 in enumerate(parser.issues):
-        match = False
-        c1 = issue1.file + ':' + issue1.lineno
-        for collection in issuesCollections:
-            if issue1.comment == collection.comment and issue1.tag == collection.tag:
-                match = True
-                f1 = False
-                for cont in collection.content:
-                    if c1 == cont:
-                        f1 = True
-                if f1 == False:
-                    collection.content.append(c1)
-                f1 = False
-                for ass in  issue1.assignees:
-                    for ass2 in collection.assignees:
-                        if ass == ass2:
-                            f1 = True
-                    if f1 == False:
-                        collection.assignees.append(ass)
-                    f1 = False
-        if match == False:
-            col = IssueColection(issue1.tag, [c1], issue1.comment, issue1.assignees)
-            issuesCollections.append(col)
-
-
-
-
-
-    for collection in issuesCollections:
-        string = ''
-        for content in collection.content:
-            string += content + '\n'
-        match = False
-        for i, gitIssue in enumerate(githubIssues):
-            if githubIssues[i]['title'] == collection.comment and githubIssues[i]['labels'][0]['name'] == collection.tag:
-                match = True
-                url = 'https://api.github.com/repos/portosummerofcode/break/issues' + '/' + str(githubIssues[i]['number'])
-                r = session.patch(url, json = {'body':string, 'assignees':collection.assignees})
-                githubIssues.pop(i)
-        if match == False:
-            r = session.post('https://api.github.com/repos/portosummerofcode/break/issues',
-                json = {'title':collection.comment, 'body':string, 'labels':[collection.tag], 'assignees':collection.assignees})
-
-
-    for gitIssue in githubIssues:
-        url = 'https://api.github.com/repos/portosummerofcode/break/issues' + '/' + str(gitIssue['number'])
-        r = session.patch(url, json = {'state':'closed'})
-
-
-else:
-    print("Parse failed")

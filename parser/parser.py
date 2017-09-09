@@ -1,4 +1,4 @@
-from lexer import Lexer, Tokens
+from .lexer import Lexer, Tokens
 
 class Issue:
     def __init__(self, tag, file, lineno):
@@ -82,9 +82,5 @@ class Parser:
         with open(".todos", "w") as f:
             for issue in self.issues:
                 f.write(str(issue) + "\n")
-            f.close()
-
-parser = Parser("../test")
-parser.parse()
-            
+            f.close()            
             

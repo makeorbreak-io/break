@@ -2,26 +2,18 @@ import os
 import requests
 
 class GithubAuth:
-    note = "Todos Authentication"
     base_url = "https://api.github.com/"
 
-    def Authenticate(self, username, password):
-        r = requests.get(self.base_url + "authorizations",
-                         auth = (username, password))
-        if r.status_code != 200:
-            return None
-        for auth in r.json():
-            if auth["note"].lower() == self.note.lower():
-                return auth["hashed_token"]            
-
-        r = requests.post(self.base_url + "authorizations",
-                          auth = (username, password),
-                          json = {
-                              "scopes": [
-                                  "repo"
-                              ],
-                              "note": self.note
-                          });
-        if r.status_code == 201:
-            return r.json()["hashed_token"]
-        return None
+    def Authenticate(self, username, password, fingerprint):
+        r = requests.put(self.base_url + "authorizations/clients/be72b42d342d7fa292c8/" + fingerprint,
+                         auth = (username, password),
+                         json = {
+                             "client_secret":"0448bc98a72d9db7f8d2362ce046bb8b46de646d",
+                             "scopes": [
+                                 "repo",
+                             ]
+                         })
+        json = r.json()
+        if r.status_code >= 200 and r.status_code < 300:
+            if json["token"] != "":
+                return json["token"]
