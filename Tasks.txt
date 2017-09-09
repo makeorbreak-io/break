@@ -1,7 +1,0 @@
-TODO:
-[main.cpp:10] There should be a better way to do this (joaosilva22, margaridaviterbo)
-
-FIXME:
-[util.cpp:4] Clean up this method
-[util.cpp:100] Clean up this method this is new
-
