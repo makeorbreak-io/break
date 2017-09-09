@@ -10,6 +10,7 @@
 :lineno 20
 :assignee joaosilva22
 :assignee JoseLuisMartins
+:assignee margaridaviterbo
 :comment There should be a better way to do this
 
 :tag FIXME
@@ -28,4 +29,5 @@
 :file newclass.cpp
 :lineno 26
 :assignee JoseLuisMartins
+:assignee margaridaviterbo
 :comment Whatever
