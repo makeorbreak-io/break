@@ -1,0 +1,40 @@
+:tag TODO
+:file main.cpp
+:lineno 1
+:assignee joaosilva22
+:assignee ze_das-naifas
+:comment Things and some other things (yes things), rio pal
+
+:tag FIXME
+:file main.cpp
+:lineno 4
+:comment Another one
+
+:tag NOTE
+:file main.cpp
+:lineno 6
+:comment This is stoopid
+
+:tag FIXME
+:file main.cpp
+:lineno 7
+:assignee joao
+:comment Fix stoopid thank ou very nice
+
+:tag TODO
+:file util.cc
+:lineno 3
+:comment Open file and return file descriptor
+
+:tag TODO
+:file file.py
+:lineno 2
+:comment Do some other things
+
+:tag TODO
+:file file.py
+:lineno 5
+:assignee joaosilva22
+:assignee margaridaviterbo
+:comment Fix this
+
