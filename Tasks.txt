@@ -1,11 +1,7 @@
 TODO:
-[main.cpp:10] There should be a better way to do this (joaosilva22, JoseLuisMartins)
-[check.cpp:20] There should be a better way to do this (joaosilva22, JoseLuisMartins, margaridaviterbo)
+[main.cpp:10] There should be a better way to do this (joaosilva22, margaridaviterbo)
 
 FIXME:
-[main.cpp:10] There should be a better way to do this (joaosilva22, JoseLuisMartins)
 [util.cpp:4] Clean up this method
-
-NOTE:
-[newclass.cpp:26] Whatever (JoseLuisMartins, margaridaviterbo)
+[util.cpp:100] Clean up this method this is new
 
