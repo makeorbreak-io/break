@@ -128,6 +128,8 @@ elif sys.argv[1] == "init":
 
     trello = query_yes_no("Do you want to put your tasks on a trello board?", False)
     trello_token = None
+    todo_list = None
+    done_list = None
     if trello:
         print("Get your application token from:")
         print("https://trello.com/1/authorize?key=" + trello_api_key + "&name=TODOS&expiration=never&response_type=token&scope=read,write")
@@ -147,22 +149,22 @@ elif sys.argv[1] == "init":
                 board_id = board["id"]
             else:
                 board_id = [x["id"] for x in boards if x["name"] == trello_board][0]
-                r = requests.post("https://trello.com/1/boards/" + board_id + "/lists", json = {"key": trello_api_key, "token": trello_token, "name": "TODOS Tasks", "defaultLists": False})
-                if r.status_code < 200 or r.status_code > 299:
-                    print(r.text)
-                    print(sys.argv[0] + ": failed to create trello board, aborting.")
-                    exit(1)
-                else:
-                    list = r.json()
-                    done_list = list["id"]
-                if r.status_code < 200 or r.status_code > 299:
-                    print(r.text)
-                    print(sys.argv[0] + ": failed to create trello board, aborting.")
-                    exit(1)
-                else:
-                    list = r.json()
-                    todo_list = list["id"]
-                r = requests.post("https://trello.com/1/boards/" + board_id + "/lists", json = {"key": trello_api_key, "token": trello_token, "name": "TODOS Done", "defaultLists": False})                
+
+            r = requests.post("https://trello.com/1/boards/" + board_id + "/lists", json = {"key": trello_api_key, "token": trello_token, "name": "TODOS Done", "defaultLists": False})
+            if r.status_code < 200 or r.status_code > 299:
+                print(sys.argv[0] + ": failed to create trello board, aborting.")
+                exit(1)
+            else:
+                list = r.json()
+                done_list = list["id"]
+
+            r = requests.post("https://trello.com/1/boards/" + board_id + "/lists", json = {"key": trello_api_key, "token": trello_token, "name": "TODOS Tasks", "defaultLists": False})
+            if r.status_code < 200 or r.status_code > 299:
+                print(sys.argv[0] + ": failed to create trello board, aborting.")
+                exit(1)
+            else:
+                list = r.json()
+                todo_list = list["id"]    
                     
     config = {
         "title": project_name,

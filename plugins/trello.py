@@ -62,17 +62,66 @@ class Plugin:
         done_cards = r.json()
 
         to_add = [collection for collection in issue_collections if not any(collection.comment == card["name"] and collection.tag == card["labels"][0]["name"] for card in task_cards) and not any(collection.comment == card["name"] and collection.tag == card["labels"][0]["name"] for card in done_cards)]
-        to_update = [collection for collection in issue_collections if collection not in to_add]
+        # to_update = [collection for collection in issue_collections if collection not in to_add]
         to_delete = [card for card in task_cards if not any(card["name"] == collection.comment and card["labels"][0]["name"] == collection.tag for collection in issue_collections)]
+
+        to_update = []
+        for collection in issue_collections:
+            for card in task_cards:
+                if collection.comment == card["name"] and collection.tag == card["labels"][0]["name"]:
+                    to_update.append((collection, card))
 
         for collection in to_add:
             r = requests.post("https://api.trello.com/1/cards", json = {"key":self.key, "token":self.token, "idList":self.task_list, "name":collection.comment})
             if r.status_code < 200 or r.status_code > 299:
-                return False
+                continue
             card_id = r.json()["id"]
+            
             color = self.tags[collection.tag]
-            r = requests.post("https://api.trello.com/1/cards/" + card_id + "/labels", json = {"key":self.key, "token":self.token, "color":color, "name":collection.tag})
-        
+            requests.post("https://api.trello.com/1/cards/" + card_id + "/labels", json = {"key":self.key, "token":self.token, "color":color, "name":collection.tag})
+
+            for assignee in collection.assignees:
+                r = requests.get("https://api.trello.com/1/types/" + assignee + "?key=" + self.key + "&token=" + self.token);
+                if r.status_code < 200 or r.status_code > 299:
+                    continue
+                id = r.json()["id"]
+                requests.post("https://api.trello.com/1/cards/" + card_id + "/idMembers", json = {"key":self.key, "token":self.token, "value":id})
+
+            r = requests.post("https://api.trello.com/1/cards/" + card_id + "/checklists", json = {"key":self.key, "token":self.token, "name":"Occurrences"})
+            if r.status_code < 200 or r.status_code > 299:
+                continue
+            checklist_id = r.json()["id"]
+            for content in collection.content:
+                requests.post("https://api.trello.com/1/checklists/" + checklist_id + "/checkItems", json = {"key":self.key, "token":self.token, "name":content})
+
+        for collection, card in to_update:
+            card_id = card["id"]
+            for member in card["idMembers"]:
+                requests.delete("https://api.trello.com/1/cards/" + card_id + "/idMembers/" + member, json = {"key":self.key, "token":self.token})
+
+            for assignee in collection.assignees:
+                r = requests.get("https://api.trello.com/1/types/" + assignee + "?key=" + self.key + "&token=" + self.token);
+                if r.status_code < 200 or r.status_code > 299:
+                    continue
+                id = r.json()["id"]
+                requests.post("https://api.trello.com/1/cards/" + card_id + "/idMembers", json = {"key":self.key, "token":self.token, "value":id})
+
+            for checklist in card["idChecklists"]:
+                requests.delete("https://api.trello.com/1/cards/" + card_id + "/checklists/" + checklist, json = {"key":self.key, "token":self.token})
+
+            r = requests.post("https://api.trello.com/1/cards/" + card_id + "/checklists", json = {"key":self.key, "token":self.token, "name":"Occurrences"})
+            if r.status_code < 200 or r.status_code > 299:
+                continue
+            checklist_id = r.json()["id"]
+            for content in collection.content:
+                requests.post("https://api.trello.com/1/checklists/" + checklist_id + "/checkItems", json = {"key":self.key, "token":self.token, "name":content})
+
+        for card in to_delete:
+            card_id = card["id"]
+            print(card_id)
+            r = requests.put("https://api.trello.com/1/cards/" + card_id, json = {"key":self.key, "token":self.token, "idList":self.done_list})
+            print(r.text)
+            
         return True
 
         
