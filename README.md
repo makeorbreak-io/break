@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/portosummerofcode/break/blob/master/logo.png" width="400">
+  <img src="https://github.com/portosummerofcode/break/blob/master/logo.png" width="350">
 </p>
 
 
@@ -8,7 +8,7 @@
 TODOS is a tool designed to simplify developers work. In short, it puts all the annotations you make in your code in one place. You can see all your TODOs, FIXEMEs or any other tags you want to use listed in either a text file, GitHub issues or Trello cards. But it's always possible to extend it's functionalities to other platforms. TODOS works now in the command line and Visual Studio Code (but easy to extend to other editors) and will analyse your code and organize your annotations everytime you save your work.
 <br><br>
 
-# How to use
+# How to use?
 First you have to download/clone this project into your projects folder???
 <br>
 
