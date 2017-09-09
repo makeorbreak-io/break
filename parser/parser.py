@@ -19,9 +19,9 @@ class Issue:
         
 
 class Parser:
-    def __init__(self, rootdir):
+    def __init__(self, rootdir, tags):
         self.index = 0
-        lexer = Lexer(rootdir)
+        lexer = Lexer(rootdir, tags)
         lexer.begin()
         self.tokens = lexer.tokens
         self.issues = []

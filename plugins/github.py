@@ -1,8 +1,5 @@
 import requests
 
-from requests.auth import HTTPBasicAuth
-from .parser import Parser
-
 class IssueCollection:
     def __init__(self, tag, content = None, comment = None, assignees = None):
         self.tag = tag

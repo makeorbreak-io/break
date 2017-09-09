@@ -22,9 +22,10 @@ class Lexer:
 
     lineno = 1
     
-    def __init__(self, rootdir):
+    def __init__(self, rootdir, tags):
         self.tokens = []
         self.rootdir = rootdir
+        self.tags = tags
 
     def begin(self):
         self.tokenize_dir(self.rootdir)
@@ -82,7 +83,7 @@ class Lexer:
     def tokenize(self, content, index, comment_type):
         i = index
         while (i < len(content)):
-            tag = self.match_tokens(content, i, ["TODO", "FIXME", "NOTE"])
+            tag = self.match_tokens(content, i, self.tags)
             if tag:
                 self.tokens.append(Token(tag.strip(), Tokens.Tag, self.file, self.lineno))
                 i += len(tag.strip())
