@@ -6,6 +6,7 @@ import toml
 from auth import GithubAuth
 from parser.parser import Parser
 from plugins.github import Plugin as GithubPlugin
+from plugins.text import Plugin as TextPlugin
 
 def query_yes_no(question, default=None):
     if default is True:
@@ -48,6 +49,14 @@ if len(sys.argv) == 1:
     with open(os.getcwd() + "/todosconfig.toml", "r") as f:
         config = toml.loads(f.read())
 
+        # Output to text file
+        text_path = config["text-path"] + "/Tasks.txt"
+        plugin = TextPlugin(text_path, issues)
+        success = plugin.run()
+
+        if not success:
+            print(sys.argv[0] + ": failed to output to text file.")
+            
         # Output to github issues
         if any("github" in s for s in config["target"]):
             github_repo = config["github-repo"]
@@ -64,7 +73,7 @@ if len(sys.argv) == 1:
             success = plugin.run()
 
             if not success:
-                print(sys.argv[0] + ": failed to output to github.")            
+                print(sys.argv[0] + ": failed to output to github.")
         
 # Init functionality
 elif sys.argv[1] == "init":
@@ -73,7 +82,9 @@ elif sys.argv[1] == "init":
         exit(1)
 
     current_dir = os.path.basename(os.path.dirname(os.path.realpath(__file__)))
-    project_name = query_string("What is the name of the project? [" + current_dir + "]", current_dir)
+    project_name = query_string("What is the name of the project? [" + current_dir + "] ", current_dir)
+
+    text_path = query_string("Where should the output file be placed? [" + os.getcwd() + "] ", os.getcwd())
     
     github = query_yes_no("Do you want to create github issues?", False)
     github_auth = None
@@ -96,7 +107,8 @@ elif sys.argv[1] == "init":
     config = {
         "title": project_name,
         "tags": [],
-        "target": []
+        "target": [],
+        "text-path": text_path
     }
     
     if github_auth is not None:

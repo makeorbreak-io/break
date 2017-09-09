@@ -1,6 +1,6 @@
 import requests
 
-from parser import Parser
+from .parser import Parser
 
 class Plugin:
     def __init__(self, filepath, issues):
