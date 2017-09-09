@@ -1,9 +1,10 @@
 import requests
 
 class Plugin:
-    def __init__(self, filepath, issues):
+    def __init__(self, filepath, issues, tags):
         self.filepath = filepath
         self.issues = issues
+        self.tags = tags
 
     def print_issues(self, issues, text_file):
         for issue in issues:
@@ -15,39 +16,23 @@ class Plugin:
         text_file.write("\n")
         return
 
-    def run(self):
-        todos = []
-        fixmes = []
-        notes = []
+    def groupIssues(self, tag, text_file):
+        issuesGroup = []
         for issue in self.issues:
-            if issue.tag == 'TODO':
-                todos.append(issue)
-            elif issue.tag == 'FIXME':
-                fixmes.append(issue)
-            elif issue.tag == 'NOTE':
-                notes.append(issue)
+            if issue.tag == tag:
+                issuesGroup.append(issue)
+        if len(issuesGroup) > 0:
+            text_file.write(tag + ":\n")
+            self.print_issues(issuesGroup, text_file)
+        return
 
+    def run(self):
         try:
             text_file = open(self.filepath, "w")
         except IOError:
             return False
         with text_file:
-            if len(todos) > 0:
-                text_file.write("TODO:\n")
-                self.print_issues(todos, text_file)
-            if len(fixmes) > 0:
-                text_file.write("FIXME:\n")
-                self.print_issues(fixmes, text_file)
-            if len(notes) > 0:
-                text_file.write("NOTE:\n")
-                self.print_issues(notes, text_file)
-            text_file.close()
+            for tag in self.tags:
+                self.groupIssues(tag, text_file)
+        text_file.close()
         return True
-
-'''
-test here
-parser = Parser('../test/intermediate2.txt')
-parser.Parse()
-t = Plugin("../Tasks.txt", parser.issues)
-t.run()
-'''
