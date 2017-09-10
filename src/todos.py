@@ -59,9 +59,9 @@ def main():
 
             # Output to text file
             text_path = config["text-path"] + "/Tasks.txt"
-            plugin = TextPlugin(text_path, issues, tag_names)
             success = plugin.run()
 
+            plugin = TextPlugin(text_path, issues, tag_names)
             if not success:
                 print(sys.argv[0] + ": failed to output to text file.")
 
@@ -104,69 +104,72 @@ def main():
             print(sys.argv[0] + ": already been initialized.")
             exit(1)
 
-        current_dir = os.path.basename(os.path.realpath(os.getcwd()))
-        project_name = query_string("What is the name of the project? [" + current_dir + "] ", current_dir)
+        try:
+            current_dir = os.path.basename(os.path.realpath(os.getcwd()))
+            project_name = query_string("What is the name of the project? [" + current_dir + "] ", current_dir)
 
-        text_path = query_string("Where should the output file be placed? [" + os.getcwd() + "] ", os.getcwd())
+            text_path = query_string("Where should the output file be placed? [" + os.getcwd() + "] ", os.getcwd())
 
-        github = query_yes_no("Do you want to create github issues?", False)
-        github_auth = None
-        github_repo = None
-        if github:
-            try_number = 0
-            while try_number < 3:
-                username = query_string("Please enter your github username: ")
-                password = getpass.getpass("Please enter your github password: ")
-                github_auth = GithubAuth().Authenticate(username, password, project_name)
-                if github_auth is not None:
-                    github_repo = query_string("Please enter the link to the github repository: ")
-                    break
-                else:
+            github = query_yes_no("Do you want to create github issues?", False)
+            github_auth = None
+            github_repo = None
+            if github:
+                try_number = 0
+                while try_number < 3:
+                    username = query_string("Please enter your github username: ")
+                    password = getpass.getpass("Please enter your github password: ")
+                    github_auth = GithubAuth().Authenticate(username, password, project_name)
+                    if github_auth is not None:
+                        github_repo = query_string("Please enter the link to the github repository: ")
+                        break
+                    else:
+                        print(sys.argv[0] + ": bad credentials, aborting.")
+                if github_auth is None:
                     print(sys.argv[0] + ": bad credentials, aborting.")
-            if github_auth is None:
-                print(sys.argv[0] + ": bad credentials, aborting.")
-                exit(1)
+                    exit(1)
 
-        trello = query_yes_no("Do you want to put your tasks on a trello board?", False)
-        trello_token = None
-        todo_list = None
-        done_list = None
-        if trello:
-            print("Get your application token from:")
-            print("https://trello.com/1/authorize?key=" + trello_api_key + "&name=TODOS&expiration=never&response_type=token&scope=read,write")
-            trello_token = query_string("Paste your token here: ")
-            trello_board = query_string("What's the name of the trello board? [" + current_dir + "] ", current_dir)
+            trello = query_yes_no("Do you want to put your tasks on a trello board?", False)
+            trello_token = None
+            todo_list = None
+            done_list = None
+            if trello:
+                print("Get your application token from:")
+                print("https://trello.com/1/authorize?key=" + trello_api_key + "&name=TODOS&expiration=never&response_type=token&scope=read,write")
+                trello_token = query_string("Paste your token here: ")
+                trello_board = query_string("What's the name of the trello board? [" + current_dir + "] ", current_dir)
 
-            # Create the trello board
-            r = requests.get("https://trello.com/1/members/my/boards?key=" + trello_api_key + "&token=" + trello_token)
-            if r.status_code < 200 or r.status_code > 299:
-                print(sys.argv[0] + ": bad credentials, aborting.")
-                exit(1)
-            else:
-                boards = r.json()
-                if not any(x["name"] == trello_board for x in boards):
-                    r = requests.post("https://trello.com/1/boards", json = {"key": trello_api_key, "token": trello_token, "name": trello_board, "defaultLists": False})
-                    board = r.json()
-                    board_id = board["id"]
-                else:
-                    board_id = [x["id"] for x in boards if x["name"] == trello_board][0]
-
-                r = requests.post("https://trello.com/1/boards/" + board_id + "/lists", json = {"key": trello_api_key, "token": trello_token, "name": "TODOS Done", "defaultLists": False})
+                # Create the trello board
+                r = requests.get("https://trello.com/1/members/my/boards?key=" + trello_api_key + "&token=" + trello_token)
                 if r.status_code < 200 or r.status_code > 299:
-                    print(sys.argv[0] + ": failed to create trello board, aborting.")
+                    print(sys.argv[0] + ": bad credentials, aborting.")
                     exit(1)
                 else:
-                    list = r.json()
-                    done_list = list["id"]
+                    boards = r.json()
+                    if not any(x["name"] == trello_board for x in boards):
+                        r = requests.post("https://trello.com/1/boards", json = {"key": trello_api_key, "token": trello_token, "name": trello_board, "defaultLists": False})
+                        board = r.json()
+                        board_id = board["id"]
+                    else:
+                        board_id = [x["id"] for x in boards if x["name"] == trello_board][0]
 
-                r = requests.post("https://trello.com/1/boards/" + board_id + "/lists", json = {"key": trello_api_key, "token": trello_token, "name": "TODOS Tasks", "defaultLists": False})
-                if r.status_code < 200 or r.status_code > 299:
-                    print(sys.argv[0] + ": failed to create trello board, aborting.")
-                    exit(1)
-                else:
-                    list = r.json()
-                    todo_list = list["id"]
+                    r = requests.post("https://trello.com/1/boards/" + board_id + "/lists", json = {"key": trello_api_key, "token": trello_token, "name": "TODOS Done", "defaultLists": False})
+                    if r.status_code < 200 or r.status_code > 299:
+                        print(sys.argv[0] + ": failed to create trello board, aborting.")
+                        exit(1)
+                    else:
+                        list = r.json()
+                        done_list = list["id"]
 
+                    r = requests.post("https://trello.com/1/boards/" + board_id + "/lists", json = {"key": trello_api_key, "token": trello_token, "name": "TODOS Tasks", "defaultLists": False})
+                    if r.status_code < 200 or r.status_code > 299:
+                        print(sys.argv[0] + ": failed to create trello board, aborting.")
+                        exit(1)
+                    else:
+                        list = r.json()
+                        todo_list = list["id"]
+        except KeyboardInterrupt:
+            exit(1)
+            
         config = {
             "title": project_name,
             "tags": {
