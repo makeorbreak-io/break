@@ -20,7 +20,7 @@ def query_yes_no(question, default=None):
 
     while (True):
         sys.stdout.write(question + prompt)
-        choice = str(input()).lower()
+        choice = str(input("")).lower()
         if default is not None and choice == "":
             return default
         elif choice == "yes" or choice == "y":
@@ -32,7 +32,7 @@ def query_yes_no(question, default=None):
 def query_string(question, default=""):
     while (True):
         sys.stdout.write(question)
-        response = str(input()).lower()
+        response = str(input("")).lower()
         if response.strip() != "":
             return response.strip()
         elif default != "":
