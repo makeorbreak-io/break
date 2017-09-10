@@ -1,0 +1,18 @@
+:tag TODO
+:file main.cpp
+:lineno 1
+:assignee joaopsilva22
+:comment Figure out if this is needed
+
+:tag NOTE
+:file main.cpp
+:lineno 7
+:comment Maybe say hi to something else
+
+:tag FIXME
+:file main.cpp
+:lineno 10
+:assignee joaopsilva22
+:assignee margaridaviterbo
+:comment Missing return value!
+
