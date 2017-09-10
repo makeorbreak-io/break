@@ -2,6 +2,10 @@
   <img src="https://github.com/portosummerofcode/break/blob/master/logo.png" width="300">
 </p>
 
+<h3 align="center">All the tasks in one place<!-- Serve Confidently --></h3>
+<p align="center">Project developed during Make or Brake 2017</p>
+
+---
 
 # What is it?
 TODOS is a tool designed to simplify developers work. In short, it puts all the annotations you make in your code in one place. You can see all your TODOs, FIXEMEs or any other tags you want to use listed in either a text file, GitHub issues or Trello cards. But it's always possible to extend it's functionalities to other platforms. TODOS works now in the command line and Visual Studio Code (but easy to extend to other editors) and will analyse your code and organize your annotations everytime you save your work.
@@ -9,7 +13,7 @@ TODOS is a tool designed to simplify developers work. In short, it puts all the 
 <br><br>
 
 # How to use?
-First you have to download/clone this project into your projects folder???
+First you have to download it [here](???)??.
 <br>
 
 To run the tool on the command line you have to use the following commands:
@@ -19,7 +23,30 @@ To run the tool on the command line you have to use the following commands:
 
 
 
-To use TODOS in Visual Studio Code you only need to save your work to update your tasks.
+To use TODOS in Visual Studio Code we recommend that you change the ???keys to the following:
+
+``` json
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "taskName": "todos",
+            "type": "shell",
+            "command": "todos"
+        }
+    ]
+}
+```
+
+``` json
+{
+    "key": "alt+t",
+    "command": "workbench.action.tasks.runTask",
+    "args": "todos"
+}
+```
+
+so that you only need to save your work to update your tasks.
 
 <br><br>
 
