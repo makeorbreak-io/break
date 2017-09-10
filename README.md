@@ -75,13 +75,13 @@ Then open `File > Preferences > Keyboard Shortcuts` and copy the next snippet to
 
 ``` json
 {
-    "key": "alt+t",
+    "key": "ctrl+s",
     "command": "workbench.action.tasks.runTask",
     "args": "todos"
 }
 ```
 
-Now every time you press `alt + t` the tool will run.
+Now **TODOS** will be run every time you save your project.
 
 ## Authors
 
