@@ -4,11 +4,11 @@ import getpass
 import toml
 import requests
 
-from auth import GithubAuth
-from parser.parser import Parser
-from plugins.github import Plugin as GithubPlugin
-from plugins.text import Plugin as TextPlugin
-from plugins.trello import Plugin as TrelloPlugin
+from .auth import GithubAuth
+from src.parser.parser import Parser
+from src.plugins.github import Plugin as GithubPlugin
+from src.plugins.text import Plugin as TextPlugin
+from src.plugins.trello import Plugin as TrelloPlugin
 
 def query_yes_no(question, default=None):
     if default is True:
@@ -104,7 +104,7 @@ def main():
             print(sys.argv[0] + ": already been initialized.")
             exit(1)
 
-        current_dir = os.path.basename(os.path.dirname(os.path.realpath(__file__)))
+        current_dir = os.path.basename(os.path.realpath(os.getcwd()))
         project_name = query_string("What is the name of the project? [" + current_dir + "] ", current_dir)
 
         text_path = query_string("Where should the output file be placed? [" + os.getcwd() + "] ", os.getcwd())
