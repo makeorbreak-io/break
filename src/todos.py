@@ -59,9 +59,9 @@ def main():
 
             # Output to text file
             text_path = config["text-path"] + "/Tasks.txt"
+            plugin = TextPlugin(text_path, issues, tag_names)
             success = plugin.run()
 
-            plugin = TextPlugin(text_path, issues, tag_names)
             if not success:
                 print(sys.argv[0] + ": failed to output to text file.")
 
