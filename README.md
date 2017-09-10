@@ -26,14 +26,14 @@ $pip install todos-0.1.tar.gz
 
 ## Usage
 
-The basic usage of the tool requires only two commands to be remebered. Those are `todos init` to create the `todosconfig.toml` file that contains the configuration variables and `todos` to generate the output. In order to start using it in your project then just do:
+The basic usage of the tool requires only two commands to be remembered. Those are `todos init` to create the `todosconfig.toml` file that contains the configuration variables and `todos` to generate the output. In order to start using it in your project then just do:
 
 ```
 $cd root_to_your_project/
 $todos init
 ```
 
-After entering all the necessary fields, you'll notice that a `todosconfig.toml` file was created. **TODOS** will process the tags `TODO`, `FIXME` and `NOTE` by default but you can change this. Just open todosconfig.toml and you'll find something like:
+After entering all the necessary fields, you'll notice that a `todosconfig.toml` file was created. **TODOS** will process the tags `TODO`, `FIXME` and `NOTE` by default but you can change this. Just open `todosconfig.toml` and you'll find something like:
 
 ``` toml
 
@@ -44,13 +44,13 @@ NOTE = "green"
 
 ```
 
-Change the values under `[tags]` to whichever ones best suit your style. Once you're done customizing, you may run the tool:
+Change the values under `[tags]` to whichever ones best suit your style. So that the tool can recognize your annotations you must write your comments with the syntax:
 
 ```
-$todos
+// TODO(joaosilva22): This is a comment
+// FIXME: This is another comment
+// ...
 ```
-
-This will output to the targets specified in the `todosconfig.toml` file, and to a text file.
 
 ## Adding a Key Bind to Visual Studio Code
 

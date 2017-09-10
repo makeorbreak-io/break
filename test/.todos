@@ -4,14 +4,25 @@
 :assignee joaopsilva22
 :comment Figure out if this is needed
 
+:tag TODO
+:file main.cpp
+:lineno 5
+:assignee joaosilva
+:comment I'm really nice
+
 :tag NOTE
 :file main.cpp
-:lineno 7
+:lineno 9
 :comment Maybe say hi to something else
+
+:tag NOTE
+:file main.cpp
+:lineno 10
+:comment And another thing
 
 :tag FIXME
 :file main.cpp
-:lineno 10
+:lineno 13
 :assignee joaopsilva22
 :assignee margaridaviterbo
 :comment Missing return value!
