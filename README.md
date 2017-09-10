@@ -36,14 +36,12 @@ $todos init
 After entering all the necessary fields, you'll notice that a `todosconfig.toml` file was created. **TODOS** will process the tags `TODO`, `FIXME` and `NOTE` by default but you can change this. Just open todosconfig.toml and you'll find something like:
 
 ``` toml
-...
 
 [tags]
 TODO = "yellow"
 FIXME = "red"
 NOTE = "green"
 
-...
 ```
 
 Change the values under `[tags]` to whichever ones best suit your style. Once you're done customizing, you may run the tool:
