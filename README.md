@@ -18,7 +18,7 @@ At this point, you may use **TODOS** to output your annotations either as a text
 
 **TODOS** has only been tested on Ubuntu 17.04 so far. It should work on similar systems without too many problems, but we can provide absolutely no guarantees.
 
-In order to install it, you must first download the `tar.gz` from [here](https://github.com/portosummerofcode/break/raw/master/dist/todos-0.1.tar.gz). Also make sure that you have `python` and `pip` installed on your system. Once the download is complete open the directory where you've stored the `tar.gz` and do:
+In order to install it, you must first download the `tar.gz` from [here](https://github.com/portosummerofcode/break/raw/master/dist/todos-0.2.tar.gz). Also make sure that you have `python` and `pip` installed on your system. Once the download is complete open the directory where you've stored the `tar.gz` and do:
 
 ```
 $pip install todos-0.1.tar.gz
@@ -49,7 +49,10 @@ Change the values under `[tags]` to whichever ones best suit your style. So that
 ```
 // TODO(joaosilva22): This is a comment
 // FIXME: This is another comment
-// ...
+#Performance(margaridaviterbo, joaosilva22): This is yet another comment
+/* 
+  @NOTE: Another comment? 
+*/
 ```
 
 ## Adding a Key Bind to Visual Studio Code
@@ -111,11 +114,11 @@ Now **TODOS** will be run every time you save your project.
       <a href="mailto:kontakt@wojtekmaj.pl">lluismmartins7@gmail.com</a><br />
     </td>
     <td>
-      <img src="https://avatars0.githubusercontent.com/u/17434192?v=4&s=400" width="100">
+      <img src="https://avatars0.githubusercontent.com/u/10251899?v=4&s=400" width="100">
     </td>
     <td>
       Rui Carvalho<br />
-      <a href="mailto:kontakt@wojtekmaj.pl">margaridaviterbo@hotmail.com</a><br />
+      <a href="mailto:kontakt@wojtekmaj.pl">ruifilipecostacarvalho80@gmail.com</a><br />
     </td>
   </tr>
 </table>
