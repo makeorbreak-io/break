@@ -24,7 +24,8 @@ To run the tool on the command line you have to use the following commands:
 
 
 To use TODOS in Visual Studio Code we recommend that you change the ???keys to the following:
-'''json
+
+``` json
 {
     "version": "2.0.0",
     "tasks": [
@@ -35,12 +36,16 @@ To use TODOS in Visual Studio Code we recommend that you change the ???keys to t
         }
     ]
 }
+```
+
+``` json
 {
-        "key": "alt+t",
-        "command": "workbench.action.tasks.runTask",
-        "args": "todos"
-    }
-'''
+    "key": "alt+t",
+    "command": "workbench.action.tasks.runTask",
+    "args": "todos"
+}
+```
+
 so that you only need to save your work to update your tasks.
 
 <br><br>
