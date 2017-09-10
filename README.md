@@ -31,7 +31,7 @@ The MIT License.
 
 # Authors
 
-<table bordercolor="white">
+<table border-width=0px>
   <tr>
     <td>
       <img src="https://avatars1.githubusercontent.com/u/15276733?v=4&s=400" width="100">
