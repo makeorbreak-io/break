@@ -44,7 +44,7 @@ trello_api_key = "d63a77f604be006624b28e02159ce9a9"
 def main():
     if len(sys.argv) == 1:
         if not os.path.isfile(os.getcwd() + "/todosconfig.toml"):
-            print(sys.argv[0] + ": cannot find todosconfig.toml.")
+            print(sys.argv[0] + ": cannot find todosconfig.toml. Run 'todos init' to create it.")
             exit(1)
 
         with open(os.getcwd() + "/todosconfig.toml", "r") as f:
@@ -168,6 +168,7 @@ def main():
                         list = r.json()
                         todo_list = list["id"]
         except KeyboardInterrupt:
+            print("")
             exit(1)
             
         config = {
