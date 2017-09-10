@@ -31,7 +31,7 @@ The MIT License.
 
 # Authors
 
-<table>
+<table bordercolor="transparent">
   <tr>
     <td>
       <img src="https://avatars1.githubusercontent.com/u/15276733?v=4&s=400" width="100">
@@ -40,23 +40,6 @@ The MIT License.
       João Silva<br />
       <a href="mailto:kontakt@wojtekmaj.pl">j.pedro004@gmail.com</a><br />
     </td>
-  </tr>
-</table>
-
-<table>
-  <tr>
-    <td>
-      <img src="https://avatars3.githubusercontent.com/u/12536106?v=4&s=400" width="100">
-    </td>
-    <td>
-      José Martins<br />
-      <a href="mailto:kontakt@wojtekmaj.pl">lluismmartins7@gmail.com</a><br />
-    </td>
-  </tr>
-</table>
-
-<table>
-  <tr>
     <td>
       <img src="https://avatars0.githubusercontent.com/u/17434192?v=4&s=400" width="100">
     </td>
@@ -65,10 +48,14 @@ The MIT License.
       <a href="mailto:kontakt@wojtekmaj.pl">margaridaviterbo@hotmail.com</a><br />
     </td>
   </tr>
-</table>
-
-<table>
   <tr>
+    <td>
+      <img src="https://avatars3.githubusercontent.com/u/12536106?v=4&s=400" width="100">
+    </td>
+    <td>
+      José Martins<br />
+      <a href="mailto:kontakt@wojtekmaj.pl">lluismmartins7@gmail.com</a><br />
+    </td>
     <td>
       <img src="https://avatars0.githubusercontent.com/u/17434192?v=4&s=400" width="100">
     </td>
@@ -78,5 +65,6 @@ The MIT License.
     </td>
   </tr>
 </table>
+
 
  
