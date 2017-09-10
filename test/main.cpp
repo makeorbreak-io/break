@@ -13,4 +13,6 @@ main() {
     printf("Hello, World!");
 
     // FIXME(joaopsilva22, margaridaviterbo): Missing return value!
+
+    // TODO: Please work mate thanks
 }

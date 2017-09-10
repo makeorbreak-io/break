@@ -152,21 +152,33 @@ def main():
                     else:
                         board_id = [x["id"] for x in boards if x["name"] == trello_board][0]
 
-                    r = requests.post("https://trello.com/1/boards/" + board_id + "/lists", json = {"key": trello_api_key, "token": trello_token, "name": "TODOS Done", "defaultLists": False})
-                    if r.status_code < 200 or r.status_code > 299:
-                        print(sys.argv[0] + ": failed to create trello board, aborting.")
-                        exit(1)
+                    r = requests.get("https://api.trello.com/1/boards/" + board_id + "/lists?key=" + trello_api_key + "&token=" + trello_token)
+                    board_lists = r.json()
+                    
+                    # Check if the list exists first
+                    if any(x["name"] == "TODOS Done" for x in board_lists):
+                        done_list = [x["id"] for x in board_lists if x["name"] == "TODOS Done"][0]
                     else:
-                        list = r.json()
-                        done_list = list["id"]
+                        r = requests.post("https://trello.com/1/boards/" + board_id + "/lists", json = {"key": trello_api_key, "token": trello_token, "name": "TODOS Done", "defaultLists": False})
+                        if r.status_code < 200 or r.status_code > 299:
+                            print(sys.argv[0] + ": failed to create trello board, aborting.")
+                            exit(1)
+                        else:
+                            list = r.json()
+                            done_list = list["id"]
 
-                    r = requests.post("https://trello.com/1/boards/" + board_id + "/lists", json = {"key": trello_api_key, "token": trello_token, "name": "TODOS Tasks", "defaultLists": False})
-                    if r.status_code < 200 or r.status_code > 299:
-                        print(sys.argv[0] + ": failed to create trello board, aborting.")
-                        exit(1)
+                    # Check if the list exists first
+                    if any(x["name"] == "TODOS Tasks" for x in board_lists):
+                        todo_list = [x["id"] for x in board_lists if x["name"] == "TODOS Tasks"][0]
                     else:
-                        list = r.json()
-                        todo_list = list["id"]
+                        r = requests.post("https://trello.com/1/boards/" + board_id + "/lists", json = {"key": trello_api_key, "token": trello_token, "name": "TODOS Tasks", "defaultLists": False})
+                        if r.status_code < 200 or r.status_code > 299:
+                            print(sys.argv[0] + ": failed to create trello board, aborting.")
+                            exit(1)
+                        else:
+                            list = r.json()
+                            todo_list = list["id"]
+                            
         except KeyboardInterrupt:
             print("")
             exit(1)

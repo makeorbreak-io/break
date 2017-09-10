@@ -1,7 +1,7 @@
 #from distutils.core import setup
 from setuptools import setup
 setup(name='todos',
-      version='0.1',
+      version='0.2',
       packages=['src', 'src.parser', 'src.plugins'],
       entry_points={
           'console_scripts': [
