@@ -198,7 +198,7 @@ def main():
             f.write(toml.dumps(config))
 
         f = open(".gitignore", "a+")
-        f.write("\ntodosconfig.toml\n");
+        f.write("\ntodosconfig.toml\nTasks.txt\n.todos\n")
 
     else:
         print(sys.argv[0] + ": is not a " + sys.argv[0] + " command.")

@@ -118,9 +118,7 @@ class Plugin:
 
         for card in to_delete:
             card_id = card["id"]
-            print(card_id)
             r = requests.put("https://api.trello.com/1/cards/" + card_id, json = {"key":self.key, "token":self.token, "idList":self.done_list})
-            print(r.text)
             
         return True
 
