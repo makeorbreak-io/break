@@ -9,7 +9,7 @@ TODOS is a tool designed to simplify developers work. In short, it puts all the 
 <br><br>
 
 # How to use?
-First you have to download/clone this project into your projects folder???
+First you have to download it [here](???)??.
 <br>
 
 To run the tool on the command line you have to use the following commands:
